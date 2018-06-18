@@ -16,7 +16,7 @@ class DBHelper {
   /**
    * Fetch all restaurants.
    */
-   static fetchRestaurants(){
+   static fetchRestaurants(callback){
      return fetch("http://localhost:1337/restaurants")
       .then(callback => { 
       return callback.json();
@@ -96,14 +96,18 @@ class DBHelper {
     // Fetch all restaurants
     return DBHelper.fetchRestaurants()
     .then(data => {
-        if (cuisine != 'all') { // filter by cuisine
+      //console.log(data);
+      for(var res in data){
+        if (res.cuisine_type != 'all') { // filter by cuisine
           let results = data.filter(r => r.cuisine_type == cuisine);
+          console.log(results);
           return results;
         }
-        if (neighborhood != 'all') { // filter by neighborhood
+        if (res.neighborhood != 'all') { // filter by neighborhood
           let results = data.filter(r => r.neighborhood == neighborhood);
           return results;
         }
+      }
         
     });
   }
@@ -111,33 +115,59 @@ class DBHelper {
   /**
    * Fetch all neighborhoods with proper error handling.
    */
-  static fetchNeighborhoods(callback) {
+  static fetchNeighborhoods() {
+    let neighborhood = new Array();
+    let uniqueNeighborhoods = new Array();
+    let temp = new Array();
     // Fetch all restaurants
     return DBHelper.fetchRestaurants()
     .then (data => {
         // Get all neighborhoods from all restaurants
-        const neighborhoods = data.map((v, i) => data[i].neighborhood)
+       // const neighborhoods = data.map((v, i) => data[i].neighborhood)
         // Remove duplicates from neighborhoods
-        const uniqueNeighborhoods = neighborhoods.filter((v, i) => neighborhoods.indexOf(v) == i)
-        callback(null, uniqueNeighborhoods);
-      
-    });
+        for(var i=0; i<data.length; i++){
+          neighborhood.push(data[i].neighborhood);
+          
+        }
+        neighborhood.forEach(double =>{
+          if(uniqueNeighborhoods.every(unique =>{
+            return double != unique;
+          }))
+            uniqueNeighborhoods.push(double);
+        });
+        //console.log(uniqueNeighborhoods);
+        return uniqueNeighborhoods;
+        //uniqueNeighborhoods = filter((v, i) => neighborhood.indexOf(v) == i);
+          
+  });
   }
 
   /**
    * Fetch all cuisines with proper error handling.
    */
-  static fetchCuisines(callback) {
+  static fetchCuisines() {
+
+    let cuisines = new Array();
+    let uniqueCuisines = new Array();
     // Fetch all restaurants
-    DBHelper.fetchRestaurants()
-    .then(data => {
+    return DBHelper.fetchRestaurants()
+    .then (data => {
         // Get all cuisines from all restaurants
-        const cuisines = data.map((v, i) => data[i].cuisine_type)
-        // Remove duplicates from cuisines
-        const uniqueCuisines = cuisines.filter((v, i) => cuisines.indexOf(v) == i)
-        callback(null, uniqueCuisines);
-      
-    });
+        // Remove duplicates from neighborhoods
+        for(var i=0; i<data.length; i++){
+          cuisines.push(data[i].cuisine_type);
+          
+        }
+        cuisines.forEach(double =>{
+          if(uniqueCuisines.every(unique =>{
+            return double != unique;
+          }))
+            uniqueCuisines.push(double);
+        });
+        //console.log(uniqueCuisines);
+        return uniqueCuisines;
+          
+  });
   }
 
   /**
@@ -158,13 +188,13 @@ class DBHelper {
    * Map marker for a restaurant.
    */
   static mapMarkerForRestaurant(restaurant, map) {
-    DBHelper.fetchRestaurants()
+    return DBHelper.fetchRestaurants()
     .then(data => {
       for(var ris in data){
     const marker = new google.maps.Marker({
       position: ris.latlng,
       title: ris.name,
-      url: DBHelper.urlForRestaurant(restaurant),
+      url: DBHelper.urlForRestaurant(ris),
       map: map,
       animation: google.maps.Animation.DROP}
     );
