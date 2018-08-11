@@ -1,15 +1,14 @@
 {
-  "name": "project2",
+  "name": "Restaurant-Reviews",
   "private": true,
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "a Sails application",
   "keywords": [],
   "dependencies": {
-    "gulp-jasmine-phantom": "^3.0.0",
     "include-all": "^1.0.0",
     "rc": "1.0.1",
-    "sails": "^0.12.13",
-    "sails-disk": "~0.10.9"
+    "sails": "^0.12.14",
+    "sails-disk": "^0.10.10"
   },
   "scripts": {
     "debug": "node debug app.js",
@@ -22,14 +21,5 @@
   },
   "author": "Brandy Lee Camacho",
   "linkedIn": "https://www.linkedin.com/in/brandycamacho/",
-  "email": "brandy@udacity.com",
-  "bugs": {
-    "url": "https://github.com/brandy/Restaurant-Reviews/issues"
-  },
-  "homepage": "https://github.com/brandy/Restaurant-Reviews#readme",
-  "license": "ISC",
-  "devDependencies": {
-    "gulp": "^4.0.0",
-    "gulp-sass": "^4.0.1"
-  }
+  "email": "brandy@udacity.com"
 }

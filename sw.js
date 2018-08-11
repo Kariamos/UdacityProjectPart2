@@ -9,6 +9,25 @@ importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.2.0/workbox
   console.log(`Boo! Workbox didn't load `);
 }*/
 
+workbox.core.setLogLevel(workbox.core.LOG_LEVELS.error);
+
+workbox.precaching.precacheAndRoute([
+  {url: '/index.html'},
+  {url: '/restaurant.html?id=1'},
+  {url: '/restaurant.html?id=2'},
+  {url: '/restaurant.html?id=3'},
+  {url: '/restaurant.html?id=4'},
+  {url: '/restaurant.html?id=5'},
+  {url: '/restaurant.html?id=6'},
+  {url: '/restaurant.html?id=7'},
+  {url: '/restaurant.html?id=8'},
+  {url: '/restaurant.html?id=9'},
+  {url: '/restaurant.html?id=10'},
+  ]);
+
+
+
+
 
 workbox.routing.registerRoute(
   new RegExp('.*\.js'),
@@ -34,7 +53,13 @@ workbox.routing.registerRoute(
   // Use the cache if it's available
   workbox.strategies.cacheFirst({
     // Use a custom cache name
-    cacheName: 'image-cache'
+    cacheName: 'image-cache',
+    plugins: [
+      new workbox.expiration.Plugin({
+        // Only cache requests for a month
+        maxAgeSeconds: 30 * 24 * 60 * 60,
+      }),
+    ]
   })
 );
 

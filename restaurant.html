@@ -7,6 +7,7 @@
   <!-- Normalize.css for better cross-browser consistency -->
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script type="text/javascript" src="node_modules/idb/lib/idb.js"></script>
   <!-- Main CSS file -->
   <link rel="stylesheet" href="css/styles.css" type="text/css"> 
   <title>Restaurant Info</title>
@@ -17,11 +18,11 @@
   <header>
     <!-- Beginning nav -->
     <nav>
-      <h1><a aria-label="breadcrumb" href="/">Restaurant Reviews</a></h1>
+      <h1><a href="/">Restaurant Reviews</a></h1>
 	  <label tabindex="0" aria-label="The following Google Map will not be available for screen readers"></label>
     
     <!-- Beginning breadcrumb -->
-    <ul id="breadcrumb" >
+    <ul aria-label="breadcrumb" id="breadcrumb" >
       <li><a href="/">Home</a></li>
     </ul>
     <!-- End breadcrumb -->
@@ -39,7 +40,7 @@
     <!-- End map -->
     <!-- Beginning restaurant -->
     <section tabindex="0" aria-label="restaurant info" id="restaurant-container">
-      <h1 tabindex="0" id="restaurant-name"></h1>
+      <h2 tabindex="0" id="restaurant-name"></h2>
       <img tabindex="0" aria-label="Restaurant image" id="restaurant-img">
       <p tabindex="0" id="restaurant-cuisine"></p>
       <p tabindex="0" id="restaurant-address"></p>
